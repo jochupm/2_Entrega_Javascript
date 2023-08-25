@@ -19,60 +19,72 @@ if (Email === "") {
     alert("Your email is " + Email)
 }
 
-let Services = prompt('Please write Services required. Options are: Data Analysis Projects, Visualization Projects, Prediction models, Training and workshops or Full-day training');
-while (Services === "" || !['data analysis projects', 'visualization projects', 'prediction models', 'training and workshops', 'full-day training'].includes(Services.toLowerCase())) {
-    Services = prompt('Please write a correct Service. Options are: Data Analysis Projects, Visualization Projects, Prediction models, Training and workshops or Full-day training');
+function Quote (Services, Region, pricing)
+{
+    this.Services= Services;
+    this.Region=Region;
+    this.pricing=pricing;
 }
-const selectedService = Services;
 
-let Region = prompt('Please write your Region. Options are: North America, South America, Europe, Oceania and Africa');
-while (Region === "" || !['north america', 'south america', 'europe', 'oceania', 'africa'].includes(Region.toLowerCase())) {
-    Region = prompt('Please write a correct Region. Options are: North America, South America, Europe, Oceania or Africa');
+let userServices = prompt('Please write Services required. Options are: Data Analysis Projects, Visualization Projects, Prediction models, Training and workshops or Full-day training');
+
+while (userServices === "" || !['data analysis projects', 'visualization projects', 'prediction models', 'training and workshops', 'full-day training'].includes(userServices.toLowerCase())) {
+    userServices = prompt('Please write a correct Service. Options are: Data Analysis Projects, Visualization Projects, Prediction models, Training and workshops or Full-day training');
 }
-const selectedRegion = Region;
+const Services=userServices;
 
-const pricing = {
-    'data analysis projects': {
-        'asia': 800,
-        'north america': 850,
-        'south america': 700,
-        'africa': 700,
-        'europe': 850,
-        'oceania': 850
-    },
-    'visualization projects': {
-        'asia': 400,
-        'north america': 450,
-        'south america': 350,
-        'africa': 350,
-        'europe': 450,
-        'oceania': 450
-    },
-    'prediction models': {
-        'asia': 750,
-        'north america': 800,
-        'south america': 700,
-        'africa': 700,
-        'europe': 800,
-        'oceania': 800
-    },
-    'training and workshops': {
-        'asia': 400,
-        'north america': 450,
-        'south america': 350,
-        'africa': 350,
-        'europe': 450,
-        'oceania': 450
-    },
-    'full-day training': {
-        'asia': 950,
-        'north america': 975,
-        'south america': 850,
-        'africa': 850,
-        'europe': 975,
-        'oceania': 975
+let userRegion = prompt('Please write your Region. Options are: North America, South America, Europe, Oceania and Africa');
+while (userRegion === "" || !['north america', 'south america', 'europe', 'oceania', 'africa'].includes(userRegion.toLowerCase())) {
+    userRegion = prompt('Please write a correct Region. Options are: North America, South America, Europe, Oceania or Africa');
+}
+const Region = userRegion;
+
+function servicesPricing (Services) {
+    switch(Services) {
+        case 'data analysis projects':
+        return 800;
+        break;
+        case 'visualization projects':
+        return 600;
+        case 'prediction models':
+        return 700;
+        break;
+        case 'training and workshops':
+        return 900;
+        break;
+        case 'full-day training':
+        return 1000;
+        break;
+        default:
+            return 0;
     }
-};
+}
 
-const quotation = pricing[selectedService.toLowerCase()][selectedRegion.toLowerCase()];
-alert("Name: "+Name+"\nLast name: "+LastName+"\nEmail: "+Email+`\nYour service required is ${selectedService}\nYour Region is ${selectedRegion}\nAmount: $${quotation}`);
+function regionPricing (Region, basePrice) {
+    switch(Region) {
+        case 'north america':
+            return basePrice+100;
+        break;
+        case 'south america':
+            return basePrice+50;
+        case 'europe':
+            return basePrice+150;
+        break;
+        case 'oceania':
+            return basePrice+50;
+        break;
+        case 'africa':
+            return basePrice+100;
+        break;
+        default:
+            return basePrice;
+    }
+
+}
+
+const basePrice=servicesPricing(Services);
+const pricing = regionPricing(Region, basePrice);
+const quote = new Quote (Services,Region,pricing);
+console.log("Quote:", quote);
+
+alert("Name: "+Name+"\nLast name: "+LastName+"\nEmail: "+Email+"\nQuote Details.\nService: "+quote.Services+"\nRegion: "+quote.Region+"\nPricing: "+quote.pricing);
